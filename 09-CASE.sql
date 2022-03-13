@@ -55,14 +55,38 @@ FROM dbo.OrderDetails
 ORDER BY UnitPrice;
 GO
 
+SELECT
+	EmployeeID, FirstName, TitleofCourtesy,
+	CASE	
+		WHEN TitleofCourtesy IN ('Ms.','Mrs.') THEN 'Female'
+		WHEN TitleofCourtesy = 'Mr.' THEN 'Male'
+		ELSE 'Unknown'
+	END AS Gender
+FROM dbo.Employees;
+GO
 
-
+-- نباشد چه می شود؟ ELSE اگر
+-- می شوند NULL صدق نکنند  WHEN مقادیری که در 
 
 SELECT
-	CustomerID,
-	CASE
-		WHEN Region IS NULL THEN N'فیلد نال است'
-		ELSE Region
-	END AS CaseValue
+	EmployeeID, FirstName, TitleofCourtesy,
+	CASE	
+		WHEN TitleofCourtesy IN ('Ms.','Mrs.') THEN 'Female'
+	END AS Gender
+FROM dbo.Employees;
+GO
+
+--در ابتدا می آید  NUll در زمان مرتب سازی  
+
+SELECT
+	CustomerID, Region
 FROM dbo.Customers;
 GO
+-- استفاده می کنیم ORDER BY در  CASE برای رفع مشکل بالا از 
+SELECT
+	CustomerID, Region
+FROM dbo.Customers
+ORDER BY
+	CASE WHEN Region IS NULL THEN 1 ELSE 0 END, Region;
+GO
+
